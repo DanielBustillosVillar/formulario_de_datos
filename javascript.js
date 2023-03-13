@@ -1,7 +1,13 @@
 var datos = [
 ];
-
+var datos = JSON.parse(localStorage.getItem("mis_datos")) || [];
 document.addEventListener("DOMContentLoaded", function() {
+    // Recuperar los datos de la memoria caché del navegador si existen
+    var datos_cacheados = localStorage.getItem('datos');
+    if (datos_cacheados !== null) {
+        datos = JSON.parse(datos_cacheados);
+        actualizarTabla(datos);
+    }
     document.getElementById("boton_exportar").addEventListener("click", function() {
         agregarDatos();
     });
@@ -31,6 +37,9 @@ function agregarDatos() {
     ];
 
     datos.push(fila);
+
+    // Almacenar los datos en la memoria caché del navegador
+    localStorage.setItem('datos', JSON.stringify(datos));
 
     document.getElementById("nombre").value = "";
     document.getElementById("direccion").value = "";
