@@ -67,15 +67,67 @@ function actualizarTabla(datos) {
     tabla.innerHTML = "";
 
     // Agrega las filas de datos
-    for (var i = 0; i < datos.length; i++) {
-        var fila_datos = tabla.insertRow();
-        for (var j = 0; j < datos[i].length; j++) {
-            var celda = fila_datos.insertCell(j);
-            celda.textContent = datos[i][j];
-        }
+    // Agrega las filas de datos
+// Agrega las filas de datos
+for (var i = 0; i < datos.length; i++) {
+    var fila_datos = tabla.insertRow();
+    for (var j = 0; j < datos[i].length; j++) {
+        var celda = fila_datos.insertCell(j);
+        celda.textContent = datos[i][j];
     }
+    var celda_editar = fila_datos.insertCell(-1);
+    var boton_editar = document.createElement("button");
+    boton_editar.textContent = "Modificar";
+    boton_editar.addEventListener("click", (function(index) {
+        return function() {
+            editarFila(index);
+        }
+    })(i));
+    celda_editar.appendChild(boton_editar);
+
+    var celda_eliminar = fila_datos.insertCell(-1);
+    var boton_eliminar = document.createElement("button");
+    boton_eliminar.textContent = "Eliminar";
+    boton_eliminar.classList.add('eliminar')
+    boton_eliminar.addEventListener("click", (function(index) {
+        return function() {
+            eliminarFila(index);
+        }
+    })(i));
+    celda_eliminar.appendChild(boton_eliminar);
 }
 
+}
+function editarFila(indice) {
+    var fila = datos[indice];
+    document.getElementById("nombre").value = fila[0];
+    document.getElementById("direccion").value = fila[1];
+    document.getElementById("telefono").value = fila[2];
+    document.getElementById("pariente").value = fila[3];
+    document.getElementById("parentesco").value = fila[4];
+    document.getElementById("telefono_pariente").value = fila[5];
+
+    // Eliminar la fila actual del array
+    datos.splice(indice, 1);
+
+    // Actualizar la tabla sin la fila eliminada
+    actualizarTabla(datos);
+}
+
+function eliminarFila(index) {
+    // Muestra una ventana de confirmación antes de eliminar la fila
+    if (confirm("¿Seguro que deseas eliminar esta fila?")) {
+      // Elimina la fila del array
+      datos.splice(index, 1);
+  
+      // Almacena los datos en la memoria caché del navegador
+      localStorage.setItem('datos', JSON.stringify(datos));
+  
+      // Actualiza la tabla con los datos actualizados
+      actualizarTabla(datos);
+    }
+  }
+  
 function crearArchivoXLSX(datos) {
     // agregar encabezados a la matriz de datos
     datos.unshift(['Nombre', 'Dirección', 'Teléfono', 'Pariente', 'Parentesco', 'Teléfono del pariente']);

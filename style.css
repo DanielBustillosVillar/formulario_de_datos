@@ -37,7 +37,9 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+.eliminar{
+    background-color: #c20010;
+}
 button:hover {
     background-color: #3e8e41;
 }
