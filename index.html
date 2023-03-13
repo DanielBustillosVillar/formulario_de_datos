@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de datos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Formulario de datos</h1>
+	<form class="formulario">
+		<label for="nombre">Nombre:</label>
+		<input type="text" id="nombre" name="nombre" required><br>
+
+		<label for="direccion">Dirección:</label>
+		<input type="text" id="direccion" name="direccion" required><br>
+
+		<label for="telefono">Teléfono:</label>
+		<input type="text" id="telefono" name="telefono" required><br>
+
+		<label for="pariente">Nombre del pariente:</label>
+		<input type="text" id="pariente" name="pariente" required><br>
+
+		<label for="parentesco">Parentesco:</label>
+		<input type="text" id="parentesco" name="parentesco" required><br>
+
+		<label for="telefono_pariente">Teléfono del pariente:</label>
+		<input type="text" id="telefono_pariente" name="telefono_pariente" required><br>
+
+		<button id="boton_exportar">Guardar</button>
+        <button id="boton_descargar">Descargar Excel</button>
+
+	</form>
+    <h2>Tabla de datos</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Dirección</th>
+				<th>Teléfono</th>
+				<th>Nombre del pariente</th>
+				<th>Parentesco</th>
+				<th>Telefono del pariente</th>
+			</tr>
+		</thead>
+		<tbody id="datos_tabla">
+		</tbody>
+	</table>
+	<script src="javascript.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+</body>
+</html>
