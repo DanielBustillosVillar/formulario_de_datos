@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("boton_exportar").addEventListener("click", function() {
         agregarDatos();
     });
-
+    document.getElementById("boton_importar").addEventListener("click", function() {
+        importarDatos();
+    });
     document.getElementById("boton_descargar").addEventListener("click", function() {
         /* agregarDatos(); */
         var archivo_xlsx = crearArchivoXLSX(datos);
@@ -52,7 +54,7 @@ function agregarDatos() {
     datos.sort(function(a, b) {
         return a[0].localeCompare(b[0]);
     });
-
+    alert('Agregado correctamente')
     actualizarTabla(datos);
 }
 
@@ -143,3 +145,34 @@ function crearArchivoXLSX(datos) {
   
     return archivo_xlsx;
   }
+
+  function importarDatos() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.xlsx';
+    input.addEventListener('change', function() {
+      var archivo = this.files[0];
+      var lector = new FileReader();
+      lector.onload = function(e) {
+        var datos_importados = XLSX.read(e.target.result, {type: 'binary'}).Sheets.Datos;
+        var datos = XLSX.utils.sheet_to_json(datos_importados, {header: 1});
+        // Eliminar encabezados de la matriz de datos
+        datos.shift();
+        // Almacenar los datos en la memoria caché del navegador
+        localStorage.setItem('datos', JSON.stringify(datos));
+
+        document.getElementById("nombre").value = "";
+        document.getElementById("direccion").value = "";
+        document.getElementById("telefono").value = "";
+        document.getElementById("pariente").value = "";
+        document.getElementById("parentesco").value = "";
+        document.getElementById("telefono_pariente").value = "";
+        actualizarTabla(datos);
+        
+        alert("Datos importados con exito")
+      };
+      lector.readAsBinaryString(archivo);
+    });
+    input.click();
+  }
+  
