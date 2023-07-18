@@ -1,3 +1,4 @@
+
 var datos = [
 ];
 var datos = JSON.parse(localStorage.getItem("mis_datos")) || [];
@@ -26,6 +27,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Elimina el enlace de descarga
         enlace_descarga.remove();
+    });
+    document.getElementById("boton_descargar_pdf").addEventListener("click", function() {
+        generarPDF(datos);
     });
 });
 function agregarDatos() {
@@ -175,4 +179,44 @@ function crearArchivoXLSX(datos) {
     });
     input.click();
   }
+
+  
+    
+  function generarPDF(datos) {
+    // Crear un nuevo objeto jsPDF
+    var doc = new jsPDF();
+    // Definir encabezados de columna y filas de datos
+    var headers = ["Nombre", "Dirección", "Teléfono", "Nombre del pariente", "Parentesco", "Teléfono del pariente"];
+    var rows = [];
+
+    // Construir filas de datos
+    for (var i = 0; i < datos.length; i++) {
+        rows.push(datos[i]);
+    }
+
+    // Definir la posición inicial de la tabla en el PDF
+    var startX = 10;
+    var startY = 20;
+
+    // Establecer tamaño y estilo de fuente para el encabezado de columna
+    doc.setFontSize(12);
+    doc.setFontStyle("bold");
+
+    // Construir la tabla en el PDF
+    /* doc.text(startX, startY, headers); */
+    doc.autoTable({
+        startY: startY + 10,
+        head: [headers],
+        body: rows,
+        theme: "grid",
+        styles: {
+            fontSize: 10,
+            cellPadding: 4,
+            overflow: "linebreak",
+        },
+    });
+
+    // Guardar el PDF como archivo
+    doc.save("datos.pdf");
+}
   
